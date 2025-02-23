@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Update this base folder to where your 5-year folders reside.
-base_folder = r"C:\path\to\your\5year\folders"
+base_folder = r"./"
 
 # Define the indices to keep from the original file (0-based):
 # A -> 0, B -> 1, C -> 2, E -> 4, F -> 5, G -> 6, I -> 8, N -> 13
