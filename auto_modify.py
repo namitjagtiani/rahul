@@ -3,7 +3,7 @@ import pandas as pd
 from datetime import datetime, timedelta
 
 # Update this base folder to where your 5-year folders reside.
-base_folder = r"./"
+base_folder = r"C:\path\to\your\5year\folders"
 
 # Define the indices to keep from the original file (0-based):
 # A -> 0, B -> 1, C -> 2, E -> 4, F -> 5, G -> 6, I -> 8, N -> 13
@@ -35,4 +35,14 @@ for year_folder in os.listdir(base_folder):
                     df_new = df_new[df_new.iloc[:, 1].astype(str).str.strip().str.upper().str.contains("EQ")]
                     
                     # Convert the date in column C (index 2) to YYYYMMDD format.
-                    df_new.iloc[:, 2] = pd.to_datetime(df_new.iloc[:, 2], 
+                    df_new.iloc[:, 2] = pd.to_datetime(df_new.iloc[:, 2], errors='coerce').dt.strftime('%Y%m%d')
+                    
+                    # Remove column B (the second column in the subset)
+                    # This drops the column at position 1 in df_new.
+                    df_new.drop(df_new.columns[1], axis=1, inplace=True)
+                    
+                    # Save the updated DataFrame back to CSV (overwriting the original file)
+                    df_new.to_csv(file_path, index=False)
+                    print(f"    Updated file saved: {file_path}")
+                except Exception as e:
+                    print(f"    Error processing file: {e}")
